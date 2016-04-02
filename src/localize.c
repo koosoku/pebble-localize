@@ -1,6 +1,6 @@
 #include <pebble.h>
 #include <stdio.h>
-#include "round.c"
+#include "./ui.h"
 
 static Window *window;
 static TextLayer *text_layer;
@@ -26,7 +26,8 @@ static void click_config_provider(void *context) {
 
 static void update_display(Layer *layer, GContext *ctx) {
   printf("we in update display");
-  drawArc(ctx, 45, layer);
+  graphics_context_set_fill_color(ctx,GColorTiffanyBlue);
+  drawDirection(ctx, 320, layer);
 }
 
 static void window_load(Window *window) {

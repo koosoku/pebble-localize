@@ -1,6 +1,7 @@
 #if defined(PBL_ROUND)
 #include <pebble.h>
-static void drawArc(GContext *ctx, uint16_t direction, Layer *layer) {
+#include "./ui.h"
+void drawDirection(GContext *ctx, uint16_t direction, Layer *layer) {
     printf("we in draw arc");
     uint16_t startAngle = direction - 22;
     uint16_t endAngle = direction + 22;
