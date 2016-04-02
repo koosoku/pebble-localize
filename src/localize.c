@@ -1,8 +1,10 @@
 #include <pebble.h>
 #include <stdio.h>
+#include "round.c"
 
 static Window *window;
 static TextLayer *text_layer;
+static Layer *s_layer;
 
 static void select_click_handler(ClickRecognizerRef recognizer, void *context) {
   text_layer_set_text(text_layer, "Select");
@@ -22,21 +24,32 @@ static void click_config_provider(void *context) {
   window_single_click_subscribe(BUTTON_ID_DOWN, down_click_handler);
 }
 
+static void update_display(Layer *layer, GContext *ctx) {
+  printf("we in update display");
+  drawArc(ctx, 45, layer);
+}
+
 static void window_load(Window *window) {
   Layer *window_layer = window_get_root_layer(window);
-  GRect bounds = layer_get_bounds(window_layer);
+  GRect windowBounds = layer_get_bounds(window_layer);
 
   int distance = 1500;
   static char text [20];
-  text_layer = text_layer_create(GRect(0, 72, bounds.size.w, 20));
+  text_layer = text_layer_create(GRect(0, 72, windowBounds.size.w, 20));
   if(distance < 1000){
     snprintf(text,sizeof(text), "%d M",distance);
   }else{
-    snprintf(text,sizeof(text), "%d.%d KM",distance/1000 , distance%1000);
+    snprintf(text,sizeof(text), "%d.%d KM",distance/1000 , (distance%1000)/10); // divide by 10 to use only two decimal digits
   }
   text_layer_set_text(text_layer, text);
   text_layer_set_text_alignment(text_layer, GTextAlignmentCenter);
   layer_add_child(window_layer, text_layer_get_layer(text_layer));
+  
+  s_layer = layer_create(windowBounds);
+  layer_set_update_proc(s_layer, update_display);
+  layer_add_child(window_layer, s_layer);
+  
+  layer_mark_dirty(s_layer);
 }
 
 static void window_unload(Window *window) {

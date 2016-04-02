@@ -12,6 +12,9 @@
     },
     "sdkVersion": "3",
     "shortName": "pebble-localize",
+    "targetPlatforms": [
+        "chalk"
+    ],
     "uuid": "0893868f-d792-4059-bc9a-42d8cc29e5d2",
     "versionLabel": "1.0",
     "watchapp": {
