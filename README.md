@@ -1,2 +1,2 @@
-# pebbleHackathon
+# pebble-localize
 pebbleHackathon
